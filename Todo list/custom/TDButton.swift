@@ -1,5 +1,5 @@
 //
-//  TDLabel.swift
+//  TDButton.swift
 //  Todo list
 //
 //  Created by Ali Tabatabaei on 9/18/18.
@@ -8,16 +8,20 @@
 
 import UIKit
 
-class TDLabel: UILabel {
+class TDButton: UIButton {
     
-    init(text: String = "TDLabel", textColor: UIColor = .white, fontSize: CGFloat = 16, textAlignment:NSTextAlignment = .left) {
+    init(title: String = "TDButton", titleColor: UIColor = .black, backgroundColor: UIColor = .white, fontSize: CGFloat = 16, cornerRadius:CGFloat = 0) {
         super.init(frame: .zero)
         
         self.translatesAutoresizingMaskIntoConstraints = false
-        self.text = text
-        self.textColor = textColor
-        self.font = UIFont(name: "Raleway-v4020-Regular", size: fontSize)
-        self.textAlignment = textAlignment
+        self.setTitle(title, for: .normal)
+        self.setTitleColor(titleColor, for: .normal)
+        self.backgroundColor = backgroundColor
+        self.layer.cornerRadius = cornerRadius
+        if let titleLabel = self.titleLabel {
+            titleLabel.font = UIFont(name: "Raleway-v4020-Regular", size: fontSize)
+        }
+        
     }
     
     required init?(coder aDecoder: NSCoder) {
