@@ -11,8 +11,8 @@ import UIKit
 class TDGradientView: UIView {
 
     let colors = [
-        UIColor(red: 100, green: 228, blue: 255).cgColor,
-        UIColor(red: 58, green: 123, blue: 213).cgColor
+        UIColor.blue0.cgColor,
+        UIColor.blue1.cgColor
     ]
     
     override init(frame: CGRect) {

@@ -17,6 +17,8 @@ class MainViewController: UIViewController {
         
         return view
     }()
+    
+    let titleLabel = TDLabel(text: "GET IT DONE", fontSize: 24, textAlignment: .center)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,6 +31,12 @@ class MainViewController: UIViewController {
         background.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -20).isActive = true
         background.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
         background.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -100).isActive = true
+        
+        background.addSubview(titleLabel)
+        titleLabel.widthAnchor.constraint(equalToConstant: 200).isActive = true
+        titleLabel.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        titleLabel.centerXAnchor.constraint(equalTo: background.centerXAnchor).isActive = true
+        titleLabel.topAnchor.constraint(equalTo: background.topAnchor, constant: 24).isActive = true
     }
 
 
