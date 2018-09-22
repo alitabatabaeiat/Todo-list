@@ -25,9 +25,25 @@ class MainViewController: UIViewController {
         return label
     }()
     
-    let startButton = TDButton(title: "START", titleColor: .grey0, cornerRadius: 20)
+    let startButton: UIButton = {
+        let button = TDButton(title: "START", titleColor: .grey0, cornerRadius: 20, type: [.rounded, .text])
+        button.addTarget(self, action: #selector(handleStartButton(_:)), for: .touchUpInside)
+        return button
+    }()
     
     let copyrightLabel = TDLabel(text: "© 2018 | Ali Tabatabaei", textColor: .grey1, fontSize: 12, textAlignment: .center)
+    
+    @objc func handleStartButton(_ button: UIButton) {
+        UIView.animate(withDuration: 0.12, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseIn, animations: {
+            button.transform = CGAffineTransform(scaleX: 0.92, y: 0.92)
+        }) { (_) in
+            UIView.animate(withDuration: 0.23, delay: 0, usingSpringWithDamping: 0.9, initialSpringVelocity: 1, options: .curveEaseIn, animations: {
+                button.transform = CGAffineTransform(scaleX: 1, y: 1)
+            }) { (_) in
+                self.present(TodosViewController(), animated: true, completion: nil)
+            }
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,7 +78,7 @@ class MainViewController: UIViewController {
         copyrightLabel.widthAnchor.constraint(equalToConstant: 200).isActive = true
         copyrightLabel.heightAnchor.constraint(equalToConstant: 40).isActive = true
         copyrightLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        copyrightLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0).isActive = true
+        copyrightLabel.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -10).isActive = true
     }
 
 

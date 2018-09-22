@@ -10,18 +10,27 @@ import UIKit
 
 class TDButton: UIButton {
     
-    init(title: String = "TDButton", titleColor: UIColor = .black, backgroundColor: UIColor = .white, fontSize: CGFloat = 16, cornerRadius:CGFloat = 0) {
+    init(title: String = "TDButton", titleColor: UIColor = .black, backgroundColor: UIColor = .white, fontSize: CGFloat = 16, cornerRadius:CGFloat = 0, type: ButtonOptions = .text) {
         super.init(frame: .zero)
         
         self.translatesAutoresizingMaskIntoConstraints = false
-        self.setTitle(title, for: .normal)
-        self.setTitleColor(titleColor, for: .normal)
         self.backgroundColor = backgroundColor
-        self.layer.cornerRadius = cornerRadius
-        if let titleLabel = self.titleLabel {
-            titleLabel.font = UIFont(name: "Raleway-v4020-Regular", size: fontSize)
+        
+        if type.contains(.rounded) {
+            self.layer.cornerRadius = cornerRadius
         }
         
+        if type.contains(.text) {
+            self.setTitle(title, for: .normal)
+            self.setTitleColor(titleColor, for: .normal)
+            if let titleLabel = self.titleLabel {
+                titleLabel.font = UIFont(name: "Raleway-v4020-Regular", size: fontSize)
+            }
+        }
+        
+        if type.isEmpty {
+            
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {
