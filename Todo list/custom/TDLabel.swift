@@ -12,10 +12,12 @@ class TDLabel: UILabel {
     
     var insets: UIEdgeInsets!
     
-    init(text: String = "TDLabel", textColor: UIColor = .white, fontSize: CGFloat = 16, textAlignment:NSTextAlignment = .left, cornerRadius: CGFloat = 0) {
-        super.init(frame: .zero)
+    init(frame: CGRect = .zero, text: String = "TDLabel", textColor: UIColor = .white, fontSize: CGFloat = 16, textAlignment:NSTextAlignment = .left, cornerRadius: CGFloat = 0) {
+        super.init(frame: frame)
         
-        self.translatesAutoresizingMaskIntoConstraints = false
+        if frame == .zero {
+            self.translatesAutoresizingMaskIntoConstraints = false
+        }
         self.text = text
         self.textColor = textColor
         self.font = UIFont(name: "Raleway-v4020-Regular", size: fontSize)

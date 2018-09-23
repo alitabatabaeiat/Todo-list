@@ -101,9 +101,23 @@ extension TodosViewController: TDHeaderViewDelegate, UITextFieldDelegate, TDPopu
 }
 
 extension TodosViewController: UITableViewDelegate, UITableViewDataSource {
-//    func numberOfSections(in tableView: UITableView) -> Int {
-//        return 2
-//    }
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerTitle = TDLabel(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 36), textColor: .white, fontSize: 20)
+        if section == 0 {
+            headerTitle.text = "Todo"
+        } else {
+            headerTitle.text = "Done"
+        }
+        return headerTitle
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 36
+    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return todos.count
