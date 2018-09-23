@@ -26,7 +26,7 @@ class MainViewController: UIViewController {
     }()
     
     let startButton: UIButton = {
-        let button = TDButton(title: "START", titleColor: .grey0, cornerRadius: 20, type: [.rounded, .text])
+        let button = TDButton(title: "START", titleColor: .grey0, cornerRadius: 16)
         button.addTarget(self, action: #selector(handleStartButton(_:)), for: .touchUpInside)
         return button
     }()

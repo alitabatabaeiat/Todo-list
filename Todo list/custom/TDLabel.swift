@@ -10,7 +10,9 @@ import UIKit
 
 class TDLabel: UILabel {
     
-    init(text: String = "TDLabel", textColor: UIColor = .white, fontSize: CGFloat = 16, textAlignment:NSTextAlignment = .left) {
+    var insets: UIEdgeInsets!
+    
+    init(text: String = "TDLabel", textColor: UIColor = .white, fontSize: CGFloat = 16, textAlignment:NSTextAlignment = .left, cornerRadius: CGFloat = 0) {
         super.init(frame: .zero)
         
         self.translatesAutoresizingMaskIntoConstraints = false
@@ -18,6 +20,8 @@ class TDLabel: UILabel {
         self.textColor = textColor
         self.font = UIFont(name: "Raleway-v4020-Regular", size: fontSize)
         self.textAlignment = textAlignment
+        self.clipsToBounds = cornerRadius > 0
+        self.layer.cornerRadius = cornerRadius
     }
     
     required init?(coder aDecoder: NSCoder) {

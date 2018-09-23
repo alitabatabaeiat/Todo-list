@@ -10,9 +10,9 @@ import UIKit
 
 class TDPopup: TDGradientView {
     
-    let addButton = TDButton(title: "  add  ", titleColor: .grey0, cornerRadius: 3, type: [.text, .rounded])
-    let cancelButton = TDButton(title: "  cancel  ", titleColor: .grey0, cornerRadius: 3, type: [.text, .rounded])
-    let textField = TDTextField(placeholder: "Some Todo...", fontSize: 12, cornerRadius: 4, inset: 4)
+    let addButton = TDButton(title: "add", titleColor: .grey0, cornerRadius: 3)
+    let cancelButton = TDButton(title: "cancel", titleColor: .grey0, cornerRadius: 3)
+    let textField = TDTextField(placeholder: "Some Todo...", fontSize: 12, cornerRadius: 4)
     
     var delegate: TDPopupDelegate?
     
@@ -23,12 +23,14 @@ class TDPopup: TDGradientView {
         
         self.layer.cornerRadius = cornerRadius
         self.addSubview(addButton)
+        addButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
         addButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
         addButton.topAnchor.constraint(equalTo: topAnchor, constant: buttonMargin).isActive = true
         addButton.rightAnchor.constraint(equalTo: rightAnchor, constant: -buttonMargin).isActive = true
         addButton.addTarget(self, action: #selector(self.handleAddButton), for: .touchUpInside)
         
         self.addSubview(cancelButton)
+        cancelButton.widthAnchor.constraint(equalToConstant: 70).isActive = true
         cancelButton.heightAnchor.constraint(equalTo: addButton.heightAnchor).isActive = true
         cancelButton.topAnchor.constraint(equalTo: addButton.topAnchor).isActive = true
         cancelButton.leftAnchor.constraint(equalTo: leftAnchor, constant: buttonMargin).isActive = true

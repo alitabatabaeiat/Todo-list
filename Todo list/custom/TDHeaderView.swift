@@ -12,7 +12,7 @@ class TDHeaderView: TDGradientView {
     
     let titleLabel = TDLabel(fontSize: 14)
     let subtitleLabel = TDLabel(fontSize: 24)
-    let addButton = TDButton(title: "+", fontSize: 24, type: [.text, .icon])
+    let addButton = TDButton(fontSize: 24, imageName: "add-icon")
     var delegate: TDHeaderViewDelegate?
     
     init(header title: String = "Header Title", subtitle: String = "Subtitle") {

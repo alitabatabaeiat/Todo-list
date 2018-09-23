@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		3413BA652157805D00ED9A4D /* extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3413BA642157805D00ED9A4D /* extension.swift */; };
 		3413BA67215780A100ED9A4D /* protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3413BA66215780A100ED9A4D /* protocol.swift */; };
+		3413BA6921579D7900ED9A4D /* TDTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3413BA6821579D7900ED9A4D /* TDTableView.swift */; };
+		3413BA6B2157CA1500ED9A4D /* TDTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3413BA6A2157CA1500ED9A4D /* TDTableViewCell.swift */; };
+		3413BA6E2157D58500ED9A4D /* Todo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3413BA6D2157D58500ED9A4D /* Todo.swift */; };
+		3413BA702158277300ED9A4D /* TDCheckbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3413BA6F2158277300ED9A4D /* TDCheckbox.swift */; };
 		34554D3D214FF795006FE548 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34554D3C214FF795006FE548 /* AppDelegate.swift */; };
 		34554D3F214FF795006FE548 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34554D3E214FF795006FE548 /* MainViewController.swift */; };
 		34554D45214FF795006FE548 /* Todo_list.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 34554D43214FF795006FE548 /* Todo_list.xcdatamodeld */; };
@@ -28,6 +32,10 @@
 /* Begin PBXFileReference section */
 		3413BA642157805D00ED9A4D /* extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = extension.swift; sourceTree = "<group>"; };
 		3413BA66215780A100ED9A4D /* protocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = protocol.swift; sourceTree = "<group>"; };
+		3413BA6821579D7900ED9A4D /* TDTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TDTableView.swift; sourceTree = "<group>"; };
+		3413BA6A2157CA1500ED9A4D /* TDTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TDTableViewCell.swift; sourceTree = "<group>"; };
+		3413BA6D2157D58500ED9A4D /* Todo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Todo.swift; sourceTree = "<group>"; };
+		3413BA6F2158277300ED9A4D /* TDCheckbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TDCheckbox.swift; sourceTree = "<group>"; };
 		34554D39214FF795006FE548 /* Todo list.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Todo list.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		34554D3C214FF795006FE548 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		34554D3E214FF795006FE548 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -57,6 +65,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3413BA6C2157D54B00ED9A4D /* model */ = {
+			isa = PBXGroup;
+			children = (
+				3413BA6D2157D58500ED9A4D /* Todo.swift */,
+			);
+			path = model;
+			sourceTree = "<group>";
+		};
 		34554D30214FF795006FE548 = {
 			isa = PBXGroup;
 			children = (
@@ -76,6 +92,7 @@
 		34554D3B214FF795006FE548 /* Todo list */ = {
 			isa = PBXGroup;
 			children = (
+				3413BA6C2157D54B00ED9A4D /* model */,
 				34A3A2B32150E6DD00E80E0B /* fonts */,
 				34554D5321504B1F006FE548 /* extention */,
 				34A3A2B02150DEE700E80E0B /* custom */,
@@ -108,6 +125,9 @@
 				34E20738215646B200313B28 /* TDHeaderView.swift */,
 				34E2073D21567AB300313B28 /* TDPopup.swift */,
 				34C10F1921568B9300411AB3 /* TDTextField.swift */,
+				3413BA6821579D7900ED9A4D /* TDTableView.swift */,
+				3413BA6A2157CA1500ED9A4D /* TDTableViewCell.swift */,
+				3413BA6F2158277300ED9A4D /* TDCheckbox.swift */,
 			);
 			path = custom;
 			sourceTree = "<group>";
@@ -201,18 +221,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				34E2073C215651F400313B28 /* OptionSet.swift in Sources */,
+				3413BA6B2157CA1500ED9A4D /* TDTableViewCell.swift in Sources */,
 				34C10F1A21568B9300411AB3 /* TDTextField.swift in Sources */,
 				3413BA67215780A100ED9A4D /* protocol.swift in Sources */,
 				3496461721510775007114BC /* TDButton.swift in Sources */,
 				34E2073E21567AB300313B28 /* TDPopup.swift in Sources */,
+				3413BA6921579D7900ED9A4D /* TDTableView.swift in Sources */,
 				34554D522150384A006FE548 /* TDGradientView.swift in Sources */,
 				34554D45214FF795006FE548 /* Todo_list.xcdatamodeld in Sources */,
 				34554D3F214FF795006FE548 /* MainViewController.swift in Sources */,
 				34E20739215646B200313B28 /* TDHeaderView.swift in Sources */,
+				3413BA6E2157D58500ED9A4D /* Todo.swift in Sources */,
 				3413BA652157805D00ED9A4D /* extension.swift in Sources */,
 				34964619215112EC007114BC /* TodosViewController.swift in Sources */,
 				34554D3D214FF795006FE548 /* AppDelegate.swift in Sources */,
 				34A3A2B22150DF0300E80E0B /* TDLabel.swift in Sources */,
+				3413BA702158277300ED9A4D /* TDCheckbox.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -12,7 +12,7 @@ class TDTextField: UITextField {
     
     var insets: UIEdgeInsets!
     
-    init(placeholder: String = "TDTextField placeholder", backgroundColor: UIColor = .white, fontSize: CGFloat = 16, cornerRadius: CGFloat = 0, inset: CGFloat = 0) {
+    init(placeholder: String = "TDTextField placeholder", backgroundColor: UIColor = .white, fontSize: CGFloat = 16, cornerRadius: CGFloat = 0, insets: UIEdgeInsets = UIEdgeInsets(top: 0, left: 4, bottom: 0, right: 0)) {
         super.init(frame: .zero)
         
         self.translatesAutoresizingMaskIntoConstraints = false
@@ -20,7 +20,7 @@ class TDTextField: UITextField {
         self.backgroundColor = backgroundColor
         self.layer.cornerRadius = cornerRadius
         self.font = UIFont(name: "Raleway-v4020-Regular", size: fontSize)
-        self.insets = UIEdgeInsets(top: 0, left: inset, bottom: 0, right: 0)
+        self.insets = insets
     }
     
     override func placeholderRect(forBounds bounds: CGRect) -> CGRect {
