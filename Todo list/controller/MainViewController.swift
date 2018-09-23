@@ -34,7 +34,7 @@ class MainViewController: UIViewController {
     let copyrightLabel = TDLabel(text: "© 2018 | Ali Tabatabaei", textColor: .grey1, fontSize: 12, textAlignment: .center)
     
     @objc func handleStartButton(_ button: UIButton) {
-        UIView.animate(withDuration: 0.12, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseIn, animations: {
+        UIView.animate(withDuration: 0.12, delay: 0, usingSpringWithDamping: 0.9, initialSpringVelocity: 1, options: .curveEaseIn, animations: {
             button.transform = CGAffineTransform(scaleX: 0.92, y: 0.92)
         }) { (_) in
             UIView.animate(withDuration: 0.23, delay: 0, usingSpringWithDamping: 0.9, initialSpringVelocity: 1, options: .curveEaseIn, animations: {
@@ -72,7 +72,7 @@ class MainViewController: UIViewController {
         startButton.widthAnchor.constraint(equalToConstant: 200).isActive = true
         startButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
         startButton.centerXAnchor.constraint(equalTo: background.centerXAnchor).isActive = true
-        startButton.bottomAnchor.constraint(equalTo: background.bottomAnchor, constant: -60).isActive = true
+        startButton.bottomAnchor.constraint(equalTo: background.bottomAnchor, constant: -40).isActive = true
         
         view.addSubview(copyrightLabel)
         copyrightLabel.widthAnchor.constraint(equalToConstant: 200).isActive = true

@@ -1,20 +1,20 @@
 //
-//  UIColor.swift
+//  extension.swift
 //  Todo list
 //
-//  Created by Ali Tabatabaei on 9/18/18.
+//  Created by Ali Tabatabaei on 9/23/18.
 //  Copyright © 2018 Ali Tabatabaei. All rights reserved.
 //
 
 import UIKit
 
 extension UIColor {
-
+    
     static var blue0: UIColor { return UIColor(rgb: 0x64E4FF) }
     static var blue1: UIColor { return UIColor(rgb: 0x3A7BD5) }
     static var grey0: UIColor { return UIColor(rgb: 0x9B9B9B) }
     static var grey1: UIColor { return UIColor(rgb: 0x424242) }
-
+    
     
     convenience init(red: Int, green: Int, blue: Int) {
         self.init(

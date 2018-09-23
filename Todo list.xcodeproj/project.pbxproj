@@ -7,24 +7,27 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3413BA652157805D00ED9A4D /* extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3413BA642157805D00ED9A4D /* extension.swift */; };
+		3413BA67215780A100ED9A4D /* protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3413BA66215780A100ED9A4D /* protocol.swift */; };
 		34554D3D214FF795006FE548 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34554D3C214FF795006FE548 /* AppDelegate.swift */; };
 		34554D3F214FF795006FE548 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34554D3E214FF795006FE548 /* MainViewController.swift */; };
 		34554D45214FF795006FE548 /* Todo_list.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 34554D43214FF795006FE548 /* Todo_list.xcdatamodeld */; };
 		34554D47214FF796006FE548 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 34554D46214FF796006FE548 /* Assets.xcassets */; };
 		34554D4A214FF796006FE548 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 34554D48214FF796006FE548 /* LaunchScreen.storyboard */; };
 		34554D522150384A006FE548 /* TDGradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34554D512150384A006FE548 /* TDGradientView.swift */; };
-		34554D5521504B58006FE548 /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34554D5421504B58006FE548 /* UIColor.swift */; };
 		3496461721510775007114BC /* TDButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3496461621510775007114BC /* TDButton.swift */; };
 		34964619215112EC007114BC /* TodosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34964618215112EC007114BC /* TodosViewController.swift */; };
 		34A3A2B22150DF0300E80E0B /* TDLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34A3A2B12150DF0300E80E0B /* TDLabel.swift */; };
 		34A3A2B52150E73F00E80E0B /* Raleway-v4020-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 34A3A2B42150E73E00E80E0B /* Raleway-v4020-Regular.otf */; };
 		34C10F1A21568B9300411AB3 /* TDTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C10F1921568B9300411AB3 /* TDTextField.swift */; };
 		34E20739215646B200313B28 /* TDHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34E20738215646B200313B28 /* TDHeaderView.swift */; };
-		34E2073C215651F400313B28 /* ButtonOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34E2073B215651F400313B28 /* ButtonOptions.swift */; };
+		34E2073C215651F400313B28 /* OptionSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34E2073B215651F400313B28 /* OptionSet.swift */; };
 		34E2073E21567AB300313B28 /* TDPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34E2073D21567AB300313B28 /* TDPopup.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3413BA642157805D00ED9A4D /* extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = extension.swift; sourceTree = "<group>"; };
+		3413BA66215780A100ED9A4D /* protocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = protocol.swift; sourceTree = "<group>"; };
 		34554D39214FF795006FE548 /* Todo list.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Todo list.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		34554D3C214FF795006FE548 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		34554D3E214FF795006FE548 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -33,14 +36,13 @@
 		34554D49214FF796006FE548 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		34554D4B214FF796006FE548 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		34554D512150384A006FE548 /* TDGradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TDGradientView.swift; sourceTree = "<group>"; };
-		34554D5421504B58006FE548 /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
 		3496461621510775007114BC /* TDButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TDButton.swift; sourceTree = "<group>"; };
 		34964618215112EC007114BC /* TodosViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodosViewController.swift; sourceTree = "<group>"; };
 		34A3A2B12150DF0300E80E0B /* TDLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TDLabel.swift; sourceTree = "<group>"; };
 		34A3A2B42150E73E00E80E0B /* Raleway-v4020-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-v4020-Regular.otf"; sourceTree = "<group>"; };
 		34C10F1921568B9300411AB3 /* TDTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TDTextField.swift; sourceTree = "<group>"; };
 		34E20738215646B200313B28 /* TDHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TDHeaderView.swift; sourceTree = "<group>"; };
-		34E2073B215651F400313B28 /* ButtonOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonOptions.swift; sourceTree = "<group>"; };
+		34E2073B215651F400313B28 /* OptionSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionSet.swift; sourceTree = "<group>"; };
 		34E2073D21567AB300313B28 /* TDPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TDPopup.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -90,8 +92,9 @@
 		34554D5321504B1F006FE548 /* extention */ = {
 			isa = PBXGroup;
 			children = (
-				34554D5421504B58006FE548 /* UIColor.swift */,
-				34E2073B215651F400313B28 /* ButtonOptions.swift */,
+				34E2073B215651F400313B28 /* OptionSet.swift */,
+				3413BA642157805D00ED9A4D /* extension.swift */,
+				3413BA66215780A100ED9A4D /* protocol.swift */,
 			);
 			path = extention;
 			sourceTree = "<group>";
@@ -197,18 +200,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				34E2073C215651F400313B28 /* ButtonOptions.swift in Sources */,
+				34E2073C215651F400313B28 /* OptionSet.swift in Sources */,
 				34C10F1A21568B9300411AB3 /* TDTextField.swift in Sources */,
+				3413BA67215780A100ED9A4D /* protocol.swift in Sources */,
 				3496461721510775007114BC /* TDButton.swift in Sources */,
 				34E2073E21567AB300313B28 /* TDPopup.swift in Sources */,
 				34554D522150384A006FE548 /* TDGradientView.swift in Sources */,
 				34554D45214FF795006FE548 /* Todo_list.xcdatamodeld in Sources */,
 				34554D3F214FF795006FE548 /* MainViewController.swift in Sources */,
 				34E20739215646B200313B28 /* TDHeaderView.swift in Sources */,
+				3413BA652157805D00ED9A4D /* extension.swift in Sources */,
 				34964619215112EC007114BC /* TodosViewController.swift in Sources */,
 				34554D3D214FF795006FE548 /* AppDelegate.swift in Sources */,
 				34A3A2B22150DF0300E80E0B /* TDLabel.swift in Sources */,
-				34554D5521504B58006FE548 /* UIColor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

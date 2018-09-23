@@ -10,10 +10,11 @@ import UIKit
 
 class TDPopup: TDGradientView {
     
-    let addButton = TDButton(title: "  add  ", titleColor: .grey0, fontSize: 12, cornerRadius: 3, type: [.text, .rounded])
-    let cancelButton = TDButton(title: "    cancel    ", titleColor: .grey0, fontSize: 12, cornerRadius: 3, type: [.text, .rounded])
+    let addButton = TDButton(title: "  add  ", titleColor: .grey0, cornerRadius: 3, type: [.text, .rounded])
+    let cancelButton = TDButton(title: "  cancel  ", titleColor: .grey0, cornerRadius: 3, type: [.text, .rounded])
     let textField = TDTextField(placeholder: "Some Todo...", fontSize: 12, cornerRadius: 4, inset: 4)
     
+    var delegate: TDPopupDelegate?
     
     init(cornerRadius: CGFloat = 0) {
         super.init(frame: .zero)
@@ -22,7 +23,7 @@ class TDPopup: TDGradientView {
         
         self.layer.cornerRadius = cornerRadius
         self.addSubview(addButton)
-        addButton.heightAnchor.constraint(equalToConstant: 18).isActive = true
+        addButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
         addButton.topAnchor.constraint(equalTo: topAnchor, constant: buttonMargin).isActive = true
         addButton.rightAnchor.constraint(equalTo: rightAnchor, constant: -buttonMargin).isActive = true
         addButton.addTarget(self, action: #selector(self.handleAddButton), for: .touchUpInside)
@@ -31,7 +32,7 @@ class TDPopup: TDGradientView {
         cancelButton.heightAnchor.constraint(equalTo: addButton.heightAnchor).isActive = true
         cancelButton.topAnchor.constraint(equalTo: addButton.topAnchor).isActive = true
         cancelButton.leftAnchor.constraint(equalTo: leftAnchor, constant: buttonMargin).isActive = true
-        addButton.addTarget(self, action: #selector(self.handleCancelButton), for: .touchUpInside)
+        cancelButton.addTarget(self, action: #selector(self.handleCancelButton), for: .touchUpInside)
         
         self.addSubview(textField)
         textField.heightAnchor.constraint(equalToConstant: 24).isActive = true
@@ -45,11 +46,15 @@ class TDPopup: TDGradientView {
     }
     
     @objc func handleAddButton() {
-        
+        if let delegate = self.delegate, let textFieldText = self.textField.text {
+            delegate.addTodo(text: textFieldText)
+        } else {
+            print("ERROR: delegate is not provided")
+        }
     }
     
     @objc func handleCancelButton() {
-        
+        self.textField.resignFirstResponder()
     }
     
     /*

@@ -42,7 +42,7 @@ class TDHeaderView: TDGradientView {
     
     @objc func handleAddButton() {
         if let delegate = self.delegate {
-            delegate.addTodo()
+            delegate.openAddTodoPopup()
         } else {
             print("ERROR: delegate is not provided")
         }
@@ -60,8 +60,4 @@ class TDHeaderView: TDGradientView {
     }
     */
 
-}
-
-protocol TDHeaderViewDelegate {
-    func addTodo()
 }
