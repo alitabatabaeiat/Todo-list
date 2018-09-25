@@ -33,15 +33,9 @@ class MainViewController: UIViewController {
     
     let copyrightLabel = TDLabel(text: "© 2018 | Ali Tabatabaei", textColor: .grey1, fontSize: 12, textAlignment: .center)
     
-    @objc func handleStartButton(_ button: UIButton) {
-        UIView.animate(withDuration: 0.12, delay: 0, usingSpringWithDamping: 0.9, initialSpringVelocity: 1, options: .curveEaseIn, animations: {
-            button.transform = CGAffineTransform(scaleX: 0.92, y: 0.92)
-        }) { (_) in
-            UIView.animate(withDuration: 0.23, delay: 0, usingSpringWithDamping: 0.9, initialSpringVelocity: 1, options: .curveEaseIn, animations: {
-                button.transform = CGAffineTransform(scaleX: 1, y: 1)
-            }) { (_) in
-                self.present(TodosViewController(), animated: true, completion: nil)
-            }
+    @objc func handleStartButton(_ button: TDButton) {
+        button.animate { (_) in
+            self.present(TodosViewController(), animated: true, completion: nil)
         }
     }
 

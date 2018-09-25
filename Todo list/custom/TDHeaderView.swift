@@ -10,10 +10,17 @@ import UIKit
 
 class TDHeaderView: TDGradientView {
     
+    var delegate: TDHeaderViewDelegate?
+    
     let titleLabel = TDLabel(fontSize: 14)
     let subtitleLabel = TDLabel(fontSize: 24)
     let addButton = TDButton(fontSize: 24, imageName: "add-icon")
-    var delegate: TDHeaderViewDelegate?
+    
+    var todosLeft = 0 {
+        didSet {
+            subtitleLabel.text = "\(todosLeft) left"
+        }
+    }
     
     init(header title: String = "Header Title", subtitle: String = "Subtitle") {
         super.init(frame: .zero)
@@ -23,7 +30,7 @@ class TDHeaderView: TDGradientView {
         
         self.addSubview(titleLabel)
         titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 12).isActive = true
-        titleLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 20 + 8).isActive = true
+        titleLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 20 + 16).isActive = true
         titleLabel.rightAnchor.constraint(equalTo: centerXAnchor).isActive = true
         
         self.addSubview(subtitleLabel)
@@ -35,7 +42,7 @@ class TDHeaderView: TDGradientView {
         addButton.widthAnchor.constraint(equalToConstant: 24).isActive = true
         addButton.heightAnchor.constraint(equalTo: addButton.widthAnchor).isActive = true
         addButton.bottomAnchor.constraint(equalTo: subtitleLabel.bottomAnchor).isActive = true
-        addButton.rightAnchor.constraint(equalTo: rightAnchor, constant: -(20 + 8)).isActive = true
+        addButton.rightAnchor.constraint(equalTo: rightAnchor, constant: -(20 + 16 + 12)).isActive = true
         
         addButton.addTarget(self, action: #selector(self.handleAddButton), for: .touchUpInside)
     }

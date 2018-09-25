@@ -15,3 +15,7 @@ protocol TDHeaderViewDelegate {
 protocol TDPopupDelegate {
     func addTodo(text: String)
 }
+
+protocol TDTableViewCellDelegate {
+    func checkboxDidToggled(updatedTodo todo: Todo)
+}

@@ -27,14 +27,6 @@ class TDCheckbox: UIButton {
         self.translatesAutoresizingMaskIntoConstraints = false
         self.layer.borderWidth = 1
         self.layer.borderColor = UIColor.grey0.cgColor
-        
-        self.addTarget(self, action: #selector(self.toggle), for: .touchUpInside)
-    }
-    
-    @objc func toggle() {
-        if let on = self.on {
-            self.on = !on
-        }
     }
     
     required init?(coder aDecoder: NSCoder) {

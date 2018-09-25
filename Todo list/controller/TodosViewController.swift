@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TodosViewController: UIViewController {
+class TodosViewController: UIViewController, TDPopupDelegate {
     
     let headerView = TDHeaderView(header: "Stuff to get done", subtitle: "4 left")
     lazy var tableBackground: UIView = {
@@ -19,15 +19,22 @@ class TodosViewController: UIViewController {
         return view
     }()
     let tableView = TDTableView()
-    let addTodoPopup = TDPopup(cornerRadius: 14)
+    let addTodoPopup = TDPopup(popupHeight: addTodoPopupHeight, popupY: addTodoPopupHeight - 10,cornerRadius: 14)
     
+    var tableBackgroundBottomConstraint: NSLayoutConstraint!
     let tableViewInset:CGFloat = 16
     var todos = [Todo]()
     let CELL_ID = "cell_id"
+    static var addTodoPopupHeight: CGFloat = 100
     var keyboardHeight: CGFloat = 330
 
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardDidShow(_:)), name: NSNotification.Name.UIKeyboardDidShow, object: nil)
+        openAddTodoPopup()
     }
     
     override func viewDidLoad() {
@@ -45,7 +52,8 @@ class TodosViewController: UIViewController {
         tableBackground.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 20).isActive = true
         tableBackground.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -20).isActive = true
         tableBackground.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: 20).isActive = true
-        tableBackground.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -100).isActive = true
+        tableBackgroundBottomConstraint = tableBackground.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -100)
+        tableBackgroundBottomConstraint.isActive = true
         
         view.addSubview(tableView)
         tableView.leftAnchor.constraint(equalTo: tableBackground.leftAnchor, constant: tableViewInset).isActive = true
@@ -54,7 +62,7 @@ class TodosViewController: UIViewController {
         tableView.bottomAnchor.constraint(equalTo: tableBackground.bottomAnchor, constant: -tableViewInset).isActive = true
         
         view.addSubview(addTodoPopup)
-        addTodoPopup.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        addTodoPopup.heightAnchor.constraint(equalToConstant: TodosViewController.addTodoPopupHeight).isActive = true
         addTodoPopup.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20).isActive = true
         addTodoPopup.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         addTodoPopup.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20).isActive = true
@@ -70,37 +78,85 @@ class TodosViewController: UIViewController {
         todos.append(Todo(id: 0, title: "First Item", status: false))
         todos.append(Todo(id: 1, title: "Second Item", status: false))
         todos.append(Todo(id: 2, title: "Third Item", status: true))
+        
+        updateTodosLeft()
     }
     
     @objc func keyboardDidShow(_ notification: Notification) {
         let keyboardSize = (notification.userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue.size
         self.keyboardHeight = keyboardSize.height
     }
+    
+    func updateTodosLeft() {
+        headerView.todosLeft = 0
+        todos.forEach { (todo) in
+            if !todo.status { headerView.todosLeft += 1 }
+        }
+    }
 }
 
-extension TodosViewController: TDHeaderViewDelegate, UITextFieldDelegate, TDPopupDelegate {
+extension TodosViewController: TDHeaderViewDelegate, UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
+        tableBackgroundBottomConstraint.constant -= keyboardHeight
+        UIView.animate(withDuration: 0.25) {
+            self.view.layoutIfNeeded()
+        }
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.85, initialSpringVelocity: 1, options: .curveEaseIn, animations: {
             self.addTodoPopup.transform = CGAffineTransform(translationX: 0, y: -self.keyboardHeight)
-        }, completion: nil)
+        }) { (_) in
+            self.addTodoPopup.cancelDelay = 0.25
+        }
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
+        tableBackgroundBottomConstraint.constant += keyboardHeight
+        UIView.animate(withDuration: 0.6) {
+            self.view.layoutIfNeeded()
+        }
         UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 0.85, initialSpringVelocity: 1, options: .curveEaseIn, animations: {
             self.addTodoPopup.transform = CGAffineTransform(translationX: 0, y: 0)
-        }, completion: nil)
+        }) { (_) in
+            self.addTodoPopup.cancelDelay = 0
+        }
     }
     
     func openAddTodoPopup() {
-        print("addTodo")
+        addTodoPopup.animate()
     }
     
     func addTodo(text: String) {
-        print(text)
+        if text != "" && !todoExists(title: text) {
+            let newTodo = Todo(id: todos.count, title: text, status: false)
+            todos.append(newTodo)
+            tableView.reloadData()
+            addTodoPopup.textField.text = ""
+            addTodoPopup.animate(delay: addTodoPopup.cancelDelay)
+        }
+    }
+
+    func todoExists(title: String) -> Bool {
+        for todo in todos {
+            if todo.title == title {
+                return true
+            }
+        }
+        return false
     }
 }
 
-extension TodosViewController: UITableViewDelegate, UITableViewDataSource {
+extension TodosViewController: UITableViewDelegate, UITableViewDataSource, TDTableViewCellDelegate {
+    
+    func checkboxDidToggled(updatedTodo todo: Todo) {
+        for i in 0..<todos.count {
+            if todos[i].id == todo.id {
+                todos[i] = todo
+                break
+            }
+        }
+        tableView.reloadData()
+        updateTodosLeft()
+    }
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
@@ -120,12 +176,37 @@ extension TodosViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return todos.count
+        var count = 0
+        todos.forEach { (todo) in
+            if section == 0 && !todo.status {
+                count += 1
+            } else if section == 1 && todo.status {
+                count += 1
+            }
+        }
+        return count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CELL_ID, for: indexPath) as! TDTableViewCell
-        cell.todo = todos[indexPath.row]
+        cell.delegate = self
+        
+        var counter = 0
+        for todo in todos {
+            if indexPath.section == 0 && !todo.status {
+                if counter == indexPath.row {
+                    cell.todo = todo
+                    break
+                }
+                counter += 1
+            } else if indexPath.section == 1 && todo.status {
+                if counter == indexPath.row {
+                    cell.todo = todo
+                    break
+                }
+                counter += 1
+            }
+        }
         return cell
     }
     
