@@ -47,10 +47,11 @@ struct CoreDataManager  {
     func fetchTodos(withStatus status: Bool? = nil) -> [Todo] {
         let context = persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<Todo>(entityName: "Todo")
-        
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "updated_at", ascending: true)]
         if let status = status {
             fetchRequest.predicate = NSPredicate(format: "status == %@", NSNumber(value: status))
         }
+        
         do {
             let todos = try context.fetch(fetchRequest)
             return todos
@@ -89,7 +90,7 @@ struct CoreDataManager  {
                 }
                 if !updates.isEmpty {
                     let now = Date()
-                    updates["created_at"] = now
+                    updates["updated_at"] = now
                     todo.setValuesForKeys(updates)
                 }
                 
