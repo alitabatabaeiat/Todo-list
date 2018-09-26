@@ -47,7 +47,7 @@ class TDTableViewCell: UITableViewCell {
         view.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         
         view.addSubview(checkbox)
-        checkbox.widthAnchor.constraint(equalToConstant: 24).isActive = true
+        checkbox.widthAnchor.constraint(equalToConstant: 22).isActive = true
         checkbox.heightAnchor.constraint(equalTo: checkbox.widthAnchor).isActive = true
         checkbox.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -inCellSideInset).isActive = true
         checkbox.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
@@ -68,9 +68,7 @@ class TDTableViewCell: UITableViewCell {
     
     @objc func toggle() {
         if let todo = self.todo, let delegate = self.delegate {
-            let updatedTodo = Todo(id: todo.id
-                , title: todo.title, status: !todo.status)
-            delegate.checkboxDidToggled(updatedTodo: updatedTodo)
+            delegate.checkboxDidToggled(todo: todo)
         }
     }
 

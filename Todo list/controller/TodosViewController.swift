@@ -23,7 +23,7 @@ class TodosViewController: UIViewController, TDPopupDelegate {
     
     var tableBackgroundBottomConstraint: NSLayoutConstraint!
     let tableViewInset:CGFloat = 16
-    var todos = [Todo]()
+    var todos = CoreDataManager.shared.fetchTodos()
     let CELL_ID = "cell_id"
     static var addTodoPopupHeight: CGFloat = 100
     var keyboardHeight: CGFloat = 330
@@ -75,10 +75,6 @@ class TodosViewController: UIViewController, TDPopupDelegate {
         
         tableView.register(TDTableViewCell.self, forCellReuseIdentifier: CELL_ID)
         
-        todos.append(Todo(id: 0, title: "First Item", status: false))
-        todos.append(Todo(id: 1, title: "Second Item", status: false))
-        todos.append(Todo(id: 2, title: "Third Item", status: true))
-        
         updateTodosLeft()
     }
     
@@ -88,10 +84,7 @@ class TodosViewController: UIViewController, TDPopupDelegate {
     }
     
     func updateTodosLeft() {
-        headerView.todosLeft = 0
-        todos.forEach { (todo) in
-            if !todo.status { headerView.todosLeft += 1 }
-        }
+        headerView.todosLeft = CoreDataManager.shared.fetchTodos(withStatus: false).count
     }
 }
 
@@ -126,9 +119,10 @@ extension TodosViewController: TDHeaderViewDelegate, UITextFieldDelegate {
     
     func addTodo(text: String) {
         if text != "" && !todoExists(title: text) {
-            let newTodo = Todo(id: todos.count, title: text, status: false)
-            todos.append(newTodo)
+            CoreDataManager.shared.createTodo(id: Int32(todos.count), title: text)
+            todos = CoreDataManager.shared.fetchTodos()
             tableView.reloadData()
+            updateTodosLeft()
             addTodoPopup.textField.text = ""
             addTodoPopup.animate(delay: addTodoPopup.cancelDelay)
         }
@@ -146,13 +140,11 @@ extension TodosViewController: TDHeaderViewDelegate, UITextFieldDelegate {
 
 extension TodosViewController: UITableViewDelegate, UITableViewDataSource, TDTableViewCellDelegate {
     
-    func checkboxDidToggled(updatedTodo todo: Todo) {
-        for i in 0..<todos.count {
-            if todos[i].id == todo.id {
-                todos[i] = todo
-                break
-            }
-        }
+    func checkboxDidToggled(todo: Todo) {
+        print(todo.status)
+        CoreDataManager.shared.updateTodo(withId: todo.id, newStatus: !todo.status)
+        todos = CoreDataManager.shared.fetchTodos()
+        print(todos)
         tableView.reloadData()
         updateTodosLeft()
     }

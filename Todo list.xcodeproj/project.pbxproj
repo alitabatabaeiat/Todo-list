@@ -11,14 +11,14 @@
 		3413BA67215780A100ED9A4D /* protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3413BA66215780A100ED9A4D /* protocol.swift */; };
 		3413BA6921579D7900ED9A4D /* TDTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3413BA6821579D7900ED9A4D /* TDTableView.swift */; };
 		3413BA6B2157CA1500ED9A4D /* TDTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3413BA6A2157CA1500ED9A4D /* TDTableViewCell.swift */; };
-		3413BA6E2157D58500ED9A4D /* Todo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3413BA6D2157D58500ED9A4D /* Todo.swift */; };
 		3413BA702158277300ED9A4D /* TDCheckbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3413BA6F2158277300ED9A4D /* TDCheckbox.swift */; };
 		34554D3D214FF795006FE548 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34554D3C214FF795006FE548 /* AppDelegate.swift */; };
 		34554D3F214FF795006FE548 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34554D3E214FF795006FE548 /* MainViewController.swift */; };
-		34554D45214FF795006FE548 /* Todo_list.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 34554D43214FF795006FE548 /* Todo_list.xcdatamodeld */; };
+		34554D45214FF795006FE548 /* TodoList.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 34554D43214FF795006FE548 /* TodoList.xcdatamodeld */; };
 		34554D47214FF796006FE548 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 34554D46214FF796006FE548 /* Assets.xcassets */; };
 		34554D4A214FF796006FE548 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 34554D48214FF796006FE548 /* LaunchScreen.storyboard */; };
 		34554D522150384A006FE548 /* TDGradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34554D512150384A006FE548 /* TDGradientView.swift */; };
+		345F9B73215A3923004390D1 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 345F9B72215A3923004390D1 /* CoreDataManager.swift */; };
 		3496461721510775007114BC /* TDButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3496461621510775007114BC /* TDButton.swift */; };
 		34964619215112EC007114BC /* TodosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34964618215112EC007114BC /* TodosViewController.swift */; };
 		34A3A2B22150DF0300E80E0B /* TDLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34A3A2B12150DF0300E80E0B /* TDLabel.swift */; };
@@ -34,7 +34,6 @@
 		3413BA66215780A100ED9A4D /* protocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = protocol.swift; sourceTree = "<group>"; };
 		3413BA6821579D7900ED9A4D /* TDTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TDTableView.swift; sourceTree = "<group>"; };
 		3413BA6A2157CA1500ED9A4D /* TDTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TDTableViewCell.swift; sourceTree = "<group>"; };
-		3413BA6D2157D58500ED9A4D /* Todo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Todo.swift; sourceTree = "<group>"; };
 		3413BA6F2158277300ED9A4D /* TDCheckbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TDCheckbox.swift; sourceTree = "<group>"; };
 		34554D39214FF795006FE548 /* Todo list.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Todo list.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		34554D3C214FF795006FE548 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -44,6 +43,7 @@
 		34554D49214FF796006FE548 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		34554D4B214FF796006FE548 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		34554D512150384A006FE548 /* TDGradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TDGradientView.swift; sourceTree = "<group>"; };
+		345F9B72215A3923004390D1 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		3496461621510775007114BC /* TDButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TDButton.swift; sourceTree = "<group>"; };
 		34964618215112EC007114BC /* TodosViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodosViewController.swift; sourceTree = "<group>"; };
 		34A3A2B12150DF0300E80E0B /* TDLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TDLabel.swift; sourceTree = "<group>"; };
@@ -65,14 +65,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		3413BA6C2157D54B00ED9A4D /* model */ = {
-			isa = PBXGroup;
-			children = (
-				3413BA6D2157D58500ED9A4D /* Todo.swift */,
-			);
-			path = model;
-			sourceTree = "<group>";
-		};
 		34554D30214FF795006FE548 = {
 			isa = PBXGroup;
 			children = (
@@ -92,16 +84,16 @@
 		34554D3B214FF795006FE548 /* Todo list */ = {
 			isa = PBXGroup;
 			children = (
-				3413BA6C2157D54B00ED9A4D /* model */,
+				34554D3C214FF795006FE548 /* AppDelegate.swift */,
 				34A3A2B32150E6DD00E80E0B /* fonts */,
 				34554D5321504B1F006FE548 /* extention */,
 				34A3A2B02150DEE700E80E0B /* custom */,
-				34554D3C214FF795006FE548 /* AppDelegate.swift */,
 				34E2073A2156494F00313B28 /* controller */,
 				34554D46214FF796006FE548 /* Assets.xcassets */,
 				34554D48214FF796006FE548 /* LaunchScreen.storyboard */,
 				34554D4B214FF796006FE548 /* Info.plist */,
-				34554D43214FF795006FE548 /* Todo_list.xcdatamodeld */,
+				34554D43214FF795006FE548 /* TodoList.xcdatamodeld */,
+				345F9B72215A3923004390D1 /* CoreDataManager.swift */,
 			);
 			path = "Todo list";
 			sourceTree = "<group>";
@@ -226,12 +218,12 @@
 				3413BA67215780A100ED9A4D /* protocol.swift in Sources */,
 				3496461721510775007114BC /* TDButton.swift in Sources */,
 				34E2073E21567AB300313B28 /* TDPopup.swift in Sources */,
+				345F9B73215A3923004390D1 /* CoreDataManager.swift in Sources */,
 				3413BA6921579D7900ED9A4D /* TDTableView.swift in Sources */,
 				34554D522150384A006FE548 /* TDGradientView.swift in Sources */,
-				34554D45214FF795006FE548 /* Todo_list.xcdatamodeld in Sources */,
+				34554D45214FF795006FE548 /* TodoList.xcdatamodeld in Sources */,
 				34554D3F214FF795006FE548 /* MainViewController.swift in Sources */,
 				34E20739215646B200313B28 /* TDHeaderView.swift in Sources */,
-				3413BA6E2157D58500ED9A4D /* Todo.swift in Sources */,
 				3413BA652157805D00ED9A4D /* extension.swift in Sources */,
 				34964619215112EC007114BC /* TodosViewController.swift in Sources */,
 				34554D3D214FF795006FE548 /* AppDelegate.swift in Sources */,
@@ -428,13 +420,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		34554D43214FF795006FE548 /* Todo_list.xcdatamodeld */ = {
+		34554D43214FF795006FE548 /* TodoList.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
 				34554D44214FF795006FE548 /* Todo_list.xcdatamodel */,
 			);
 			currentVersion = 34554D44214FF795006FE548 /* Todo_list.xcdatamodel */;
-			path = Todo_list.xcdatamodeld;
+			path = TodoList.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

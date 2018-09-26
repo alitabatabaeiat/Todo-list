@@ -25,7 +25,7 @@ class TDCheckbox: UIButton {
         super.init(frame: .zero)
         
         self.translatesAutoresizingMaskIntoConstraints = false
-        self.layer.borderWidth = 1
+        self.layer.borderWidth = 1.2
         self.layer.borderColor = UIColor.grey0.cgColor
     }
     

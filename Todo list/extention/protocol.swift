@@ -17,5 +17,5 @@ protocol TDPopupDelegate {
 }
 
 protocol TDTableViewCellDelegate {
-    func checkboxDidToggled(updatedTodo todo: Todo)
+    func checkboxDidToggled(todo: Todo)
 }

@@ -6,10 +6,10 @@
 //  Copyright © 2018 Ali Tabatabaei. All rights reserved.
 //
 
-import Foundation
-
-struct Todo {
-    var id: Int
-    var title: String
-    var status: Bool
-}
+//import Foundation
+//
+//struct Todo {
+//    var id: Int
+//    var title: String
+//    var status: Bool
+//}

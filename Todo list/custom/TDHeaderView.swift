@@ -14,7 +14,7 @@ class TDHeaderView: TDGradientView {
     
     let titleLabel = TDLabel(fontSize: 14)
     let subtitleLabel = TDLabel(fontSize: 24)
-    let addButton = TDButton(fontSize: 24, imageName: "add-icon")
+    let addButton = TDButton(fontSize: 22, imageName: "add-icon")
     
     var todosLeft = 0 {
         didSet {
