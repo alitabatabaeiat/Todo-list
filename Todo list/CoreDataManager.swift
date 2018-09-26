@@ -69,7 +69,7 @@ struct CoreDataManager  {
         
         do {
             let todos = try context.fetch(fetchRequest)
-            return todos[0]
+            return todos.count > 0 ? todos[0] : nil
         } catch let error {
             print("Failed to fetch todos from context: \(error)")
             return nil
