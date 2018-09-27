@@ -42,6 +42,8 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        UserDefaults.standard.set(true, forKey: "main-view-controller-visited")
+        
         view.backgroundColor = .white
         
         view.addSubview(background)
