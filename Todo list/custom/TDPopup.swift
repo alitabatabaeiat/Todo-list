@@ -12,15 +12,26 @@ class TDPopup: TDGradientView {
     
     var delegate: TDPopupDelegate?
     
-    let addButton = TDButton(title: "add", titleColor: .grey0, cornerRadius: 3)
-    let cancelButton = TDButton(title: "cancel", titleColor: .grey0, cornerRadius: 3)
+    static let ADD = "add"
+    static let EDIT = "edit"
+    static let CANCEL = "cancel"
+    
+    let addButton = TDButton(title: ADD, titleColor: .grey0, cornerRadius: 3)
+    let cancelButton = TDButton(title: CANCEL, titleColor: .grey0, cornerRadius: 3)
     let textField = TDTextField(placeholder: "Some Todo...", fontSize: 12, cornerRadius: 4)
     
     var popupHeight: CGFloat!
     var popupY: CGFloat!
     var minHeight: CGFloat!
-    var cancelDelay: TimeInterval = 0
+    var closeDelay: TimeInterval = 0
     var isOpen = true
+    var editingTodo: Todo? {
+        didSet {
+            if let todo = self.editingTodo {
+                textField.text = todo.title
+            }
+        }
+    }
     
     init(popupHeight: CGFloat, popupY: CGFloat, cornerRadius: CGFloat = 0) {
         super.init(frame: .zero)
@@ -63,15 +74,20 @@ class TDPopup: TDGradientView {
     @objc func handleAddButton(_ button: TDButton) {
         button.animate(completion: nil)
         if let delegate = self.delegate, let textFieldText = self.textField.text {
-            delegate.addTodo(text: textFieldText)
+            if button.title(for: .normal) == TDPopup.ADD {
+                delegate.addTodo(text: textFieldText)
+            } else if button.title(for: .normal) == TDPopup.EDIT, let todo = self.editingTodo {
+                delegate.editTodo(withId: todo.id, text: textFieldText)
+            }
         } else {
             print("ERROR: delegate is not provided")
         }
     }
     
     @objc func handleCancelButton(_ button: TDButton) {
+        addButton.setTitle(TDPopup.ADD, for: .normal)
         button.animate(completion: nil)
-        animate(delay: cancelDelay)
+        animate(delay: closeDelay)
     }
     
     @objc func animate(delay: TimeInterval = 0) {
@@ -81,9 +97,9 @@ class TDPopup: TDGradientView {
             self.transform = CGAffineTransform(translationX: 0, y: self.popupY)
         }, completion: nil)
         
-        if !isOpen {
+        if isOpen { // push down
             popupY = popupHeight - minHeight
-        } else {
+        } else { // pull up
             popupY = 0
         }
     }

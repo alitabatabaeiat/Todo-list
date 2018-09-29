@@ -43,7 +43,8 @@ class TodosViewController: UIViewController, TDPopupDelegate {
 
         view.backgroundColor = .white
         
-        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.tapRecognizer)))
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.tapRecognizer))
+        view.addGestureRecognizer(tapGestureRecognizer)
         
         view.addSubview(headerView)
         headerView.heightAnchor.constraint(equalToConstant: 120).isActive = true
@@ -70,6 +71,7 @@ class TodosViewController: UIViewController, TDPopupDelegate {
         addTodoPopup.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         addTodoPopup.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20).isActive = true
         
+        tapGestureRecognizer.delegate = self
         headerView.delegate = self
         tableView.delegate = self
         tableView.dataSource = self
@@ -94,8 +96,7 @@ class TodosViewController: UIViewController, TDPopupDelegate {
         self.keyboardHeight = keyboardSize.height
     }
     
-    @objc func tapRecognizer(_ gestureRecognizer: UIGestureRecognizer,
-                             shouldReceive touch: UITouch) {
+    @objc func tapRecognizer() {
         if !addTodoPopup.isOpen {
             addTodoPopup.animate()
         }
@@ -119,7 +120,7 @@ extension TodosViewController: TDHeaderViewDelegate, UITextFieldDelegate {
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.85, initialSpringVelocity: 1, options: .curveEaseIn, animations: {
             self.addTodoPopup.transform = CGAffineTransform(translationX: 0, y: -self.keyboardHeight)
         }) { (_) in
-            self.addTodoPopup.cancelDelay = 0.25
+            self.addTodoPopup.closeDelay = 0.25
         }
     }
     
@@ -131,19 +132,40 @@ extension TodosViewController: TDHeaderViewDelegate, UITextFieldDelegate {
         UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 0.85, initialSpringVelocity: 1, options: .curveEaseIn, animations: {
             self.addTodoPopup.transform = CGAffineTransform(translationX: 0, y: 0)
         }) { (_) in
-            self.addTodoPopup.cancelDelay = 0
+            self.addTodoPopup.closeDelay = 0
         }
     }
     
-    func addTodo(text: String) {
-        if text != "" && !todoExists(title: text) {
-            CoreDataManager.shared.createTodo(id: Int32(todos.count), title: text)
-            todos = CoreDataManager.shared.fetchTodos()
-            tableView.reloadData()
-            updateTodosLeft()
-            addTodoPopup.textField.text = ""
-            addTodoPopup.animate(delay: addTodoPopup.cancelDelay)
+    func validTodo(title text: String?) -> Bool {
+        if let text = text {
+            return text != "" && !todoExists(title: text)
         }
+        return false
+    }
+    
+    func addTodo(text: String) {
+        if validTodo(title: text) {
+            CoreDataManager.shared.createTodo(id: Int32(todos.count), title: text)
+            updateTodos()
+            addTodoPopup.textField.text = ""
+            addTodoPopup.animate(delay: addTodoPopup.closeDelay)
+        }
+    }
+    
+    func editTodo(withId id: Int32, text: String) {
+        if validTodo(title: text) {
+            CoreDataManager.shared.updateTodo(withId: id, newTitle: text)
+            updateTodos()
+            addTodoPopup.textField.text = ""
+            addTodoPopup.animate(delay: addTodoPopup.closeDelay)
+            addTodoPopup.editingTodo = nil
+        }
+    }
+    
+    func updateTodos() {
+        todos = CoreDataManager.shared.fetchTodos()
+        tableView.reloadData()
+        updateTodosLeft()
     }
 
     func todoExists(title: String) -> Bool {
@@ -159,12 +181,8 @@ extension TodosViewController: TDHeaderViewDelegate, UITextFieldDelegate {
 extension TodosViewController: UITableViewDelegate, UITableViewDataSource, TDTableViewCellDelegate {
     
     func checkboxDidToggled(todo: Todo) {
-        print(todo.status)
         CoreDataManager.shared.updateTodo(withId: todo.id, newStatus: !todo.status)
-        todos = CoreDataManager.shared.fetchTodos()
-        print(todos)
-        tableView.reloadData()
-        updateTodosLeft()
+        updateTodos()
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -220,7 +238,41 @@ extension TodosViewController: UITableViewDelegate, UITableViewDataSource, TDTab
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        var todo: Todo?
+        if let cell = tableView.cellForRow(at: indexPath) as? TDTableViewCell {
+            todo = cell.todo
+        } else {
+            return
+        }
+        
+        if !addTodoPopup.isOpen {
+            openPopupToEditTodo(todo: todo)
+        } else if addTodoPopup.isOpen, let editingTodo = addTodoPopup.editingTodo, let todo = todo {
+            if editingTodo != todo {
+                openPopupToEditTodo(todo: todo)
+                addTodoPopup.animate(delay: 0.5)
+            }
+        }
+    }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 40
+    }
+    
+    func openPopupToEditTodo(todo: Todo?) {
+        addTodoPopup.addButton.setTitle(TDPopup.EDIT, for: .normal)
+        addTodoPopup.animate()
+        addTodoPopup.editingTodo = todo
+    }
+}
+
+extension TodosViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        if gestureRecognizer is UITapGestureRecognizer {
+            let location = touch.location(in: tableView)
+            return tableView.indexPathForRow(at: location) == nil
+        }
+        return true
     }
 }

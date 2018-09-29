@@ -14,6 +14,7 @@ protocol TDHeaderViewDelegate {
 
 protocol TDPopupDelegate {
     func addTodo(text: String)
+    func editTodo(withId id: Int32, text: String)
 }
 
 protocol TDTableViewCellDelegate {
