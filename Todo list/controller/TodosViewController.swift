@@ -19,14 +19,14 @@ class TodosViewController: UIViewController, TDPopupDelegate {
         return view
     }()
     let tableView = TDTableView()
-    let addTodoPopup = TDPopup(popupHeight: addTodoPopupHeight, popupY: addTodoPopupHeight - 10,cornerRadius: 14)
+    let addTodoPopup = TDPopup(popupHeight: addTodoPopupHeight, popupY: addTodoPopupHeight - 10, cornerRadius: 14)
     
     var tableBackgroundBottomConstraint: NSLayoutConstraint!
     let tableViewInset:CGFloat = 16
     var todos = CoreDataManager.shared.fetchTodos()
     let CELL_ID = "cell_id"
-    static var addTodoPopupHeight: CGFloat = 100
-    var keyboardHeight: CGFloat = 330
+    static let addTodoPopupHeight: CGFloat = 100
+    var keyboardHeight: CGFloat = 0
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
@@ -34,13 +34,16 @@ class TodosViewController: UIViewController, TDPopupDelegate {
     
     override func viewDidAppear(_ animated: Bool) {
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardDidShow(_:)), name: NSNotification.Name.UIKeyboardDidShow, object: nil)
-        openAddTodoPopup()
+        openKeyboard()
+        addTodoPopup.animate()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         view.backgroundColor = .white
+        
+        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.tapRecognizer)))
         
         view.addSubview(headerView)
         headerView.heightAnchor.constraint(equalToConstant: 120).isActive = true
@@ -78,9 +81,24 @@ class TodosViewController: UIViewController, TDPopupDelegate {
         updateTodosLeft()
     }
     
+    func openKeyboard() {
+        let textField = UITextField()
+        view.addSubview(textField)
+        textField.becomeFirstResponder()
+        textField.resignFirstResponder()
+        textField.removeFromSuperview()
+    }
+    
     @objc func keyboardDidShow(_ notification: Notification) {
         let keyboardSize = (notification.userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue.size
         self.keyboardHeight = keyboardSize.height
+    }
+    
+    @objc func tapRecognizer(_ gestureRecognizer: UIGestureRecognizer,
+                             shouldReceive touch: UITouch) {
+        if !addTodoPopup.isOpen {
+            addTodoPopup.animate()
+        }
     }
     
     func updateTodosLeft() {
@@ -89,8 +107,12 @@ class TodosViewController: UIViewController, TDPopupDelegate {
 }
 
 extension TodosViewController: TDHeaderViewDelegate, UITextFieldDelegate {
+    func openAddTodoPopup() {
+        addTodoPopup.animate()
+    }
+    
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        tableBackgroundBottomConstraint.constant -= keyboardHeight
+        tableBackgroundBottomConstraint.constant -= (keyboardHeight)
         UIView.animate(withDuration: 0.25) {
             self.view.layoutIfNeeded()
         }
@@ -102,7 +124,7 @@ extension TodosViewController: TDHeaderViewDelegate, UITextFieldDelegate {
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        tableBackgroundBottomConstraint.constant += keyboardHeight
+        tableBackgroundBottomConstraint.constant += (keyboardHeight)
         UIView.animate(withDuration: 0.6) {
             self.view.layoutIfNeeded()
         }
@@ -111,10 +133,6 @@ extension TodosViewController: TDHeaderViewDelegate, UITextFieldDelegate {
         }) { (_) in
             self.addTodoPopup.cancelDelay = 0
         }
-    }
-    
-    func openAddTodoPopup() {
-        addTodoPopup.animate()
     }
     
     func addTodo(text: String) {

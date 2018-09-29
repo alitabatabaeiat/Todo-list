@@ -20,6 +20,7 @@ class TDPopup: TDGradientView {
     var popupY: CGFloat!
     var minHeight: CGFloat!
     var cancelDelay: TimeInterval = 0
+    var isOpen = true
     
     init(popupHeight: CGFloat, popupY: CGFloat, cornerRadius: CGFloat = 0) {
         super.init(frame: .zero)
@@ -33,6 +34,7 @@ class TDPopup: TDGradientView {
         self.minHeight = popupHeight - popupY
         
         self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.animate(delay:))))
+        
         self.addSubview(addButton)
         addButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
         addButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
@@ -73,15 +75,16 @@ class TDPopup: TDGradientView {
     }
     
     @objc func animate(delay: TimeInterval = 0) {
+        isOpen = !isOpen
         self.textField.resignFirstResponder()
         UIView.animate(withDuration: 0.5, delay: delay, usingSpringWithDamping: 0.85, initialSpringVelocity: 1, options: .curveEaseIn, animations: {
             self.transform = CGAffineTransform(translationX: 0, y: self.popupY)
         }, completion: nil)
         
-        if popupY == popupHeight - minHeight {
-            popupY = 0
-        } else {
+        if !isOpen {
             popupY = popupHeight - minHeight
+        } else {
+            popupY = 0
         }
     }
 }
