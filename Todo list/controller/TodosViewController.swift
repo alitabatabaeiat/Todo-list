@@ -25,7 +25,7 @@ class TodosViewController: UIViewController, TDPopupDelegate {
     let tableViewInset:CGFloat = 16
     var todos = CoreDataManager.shared.fetchTodos()
     let CELL_ID = "cell_id"
-    static let addTodoPopupHeight: CGFloat = 100
+    static let addTodoPopupHeight: CGFloat = 80
     var keyboardHeight: CGFloat = 0
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -97,8 +97,8 @@ class TodosViewController: UIViewController, TDPopupDelegate {
     }
     
     @objc func tapRecognizer() {
-        if !addTodoPopup.isOpen {
-            addTodoPopup.animate()
+        if addTodoPopup.isOpen {
+            addTodoPopup.setDefaultsAndClose()
         }
     }
     
@@ -110,6 +110,11 @@ class TodosViewController: UIViewController, TDPopupDelegate {
 extension TodosViewController: TDHeaderViewDelegate, UITextFieldDelegate {
     func openAddTodoPopup() {
         addTodoPopup.animate()
+        if addTodoPopup.editingTodo != nil {
+            addTodoPopup.setDefaultsAndClose()
+            addTodoPopup.animate(delay: 0.5)
+            addTodoPopup.editingTodo = nil
+        }
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
@@ -248,8 +253,8 @@ extension TodosViewController: UITableViewDelegate, UITableViewDataSource, TDTab
         
         if !addTodoPopup.isOpen {
             openPopupToEditTodo(todo: todo)
-        } else if addTodoPopup.isOpen, let editingTodo = addTodoPopup.editingTodo, let todo = todo {
-            if editingTodo != todo {
+        } else if addTodoPopup.isOpen, let todo = todo {
+            if addTodoPopup.editingTodo != todo {
                 openPopupToEditTodo(todo: todo)
                 addTodoPopup.animate(delay: 0.5)
             }

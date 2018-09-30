@@ -47,7 +47,8 @@ class TDHeaderView: TDGradientView {
         addButton.addTarget(self, action: #selector(self.handleAddButton), for: .touchUpInside)
     }
     
-    @objc func handleAddButton() {
+    @objc func handleAddButton(_ button: TDButton) {
+        button.animate(completion: nil)
         if let delegate = self.delegate {
             delegate.openAddTodoPopup()
         } else {

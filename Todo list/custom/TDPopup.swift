@@ -85,9 +85,8 @@ class TDPopup: TDGradientView {
     }
     
     @objc func handleCancelButton(_ button: TDButton) {
-        addButton.setTitle(TDPopup.ADD, for: .normal)
+        setDefaultsAndClose()
         button.animate(completion: nil)
-        animate(delay: closeDelay)
     }
     
     @objc func animate(delay: TimeInterval = 0) {
@@ -102,5 +101,11 @@ class TDPopup: TDGradientView {
         } else { // pull up
             popupY = 0
         }
+    }
+    
+    func setDefaultsAndClose() {
+        addButton.setTitle(TDPopup.ADD, for: .normal)
+        textField.text = ""
+        if isOpen { animate(delay: closeDelay) }
     }
 }
