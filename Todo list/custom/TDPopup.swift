@@ -108,4 +108,25 @@ class TDPopup: TDGradientView {
         textField.text = ""
         if isOpen { animate(delay: closeDelay) }
     }
+    
+    func showOrHideButtons(duration: TimeInterval, delay: TimeInterval) {
+        if isOpen {
+            addButton.alpha = 1
+            cancelButton.alpha = 1
+            addButton.isHidden = false
+            cancelButton.isHidden = false
+        } else {
+            UIView.animate(withDuration: duration, delay: delay, options: .curveEaseIn, animations: {
+                if !self.isOpen {
+                    self.addButton.alpha = 0
+                    self.cancelButton.alpha = 0
+                }
+            }) { (_) in
+                if !self.isOpen {
+                    self.addButton.isHidden = true
+                    self.cancelButton.isHidden = true
+                }
+            }
+        }
+    }
 }

@@ -19,13 +19,14 @@ class TodosViewController: UIViewController, TDPopupDelegate {
         return view
     }()
     let tableView = TDTableView()
-    let addTodoPopup = TDPopup(popupHeight: addTodoPopupHeight, popupY: addTodoPopupHeight - 10, cornerRadius: 14)
+    lazy var addTodoPopup = TDPopup(popupHeight: addTodoPopupHeight, popupY: addTodoPopupHeight - 15, cornerRadius: tableViewInset)
     
     var tableBackgroundBottomConstraint: NSLayoutConstraint!
+    let tableBackgroundBottomInset: CGFloat = 100
     let tableViewInset:CGFloat = 16
     var todos = CoreDataManager.shared.fetchTodos()
     let CELL_ID = "cell_id"
-    static let addTodoPopupHeight: CGFloat = 80
+    let addTodoPopupHeight: CGFloat = 80
     var keyboardHeight: CGFloat = 0
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -56,7 +57,7 @@ class TodosViewController: UIViewController, TDPopupDelegate {
         tableBackground.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 20).isActive = true
         tableBackground.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -20).isActive = true
         tableBackground.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: 20).isActive = true
-        tableBackgroundBottomConstraint = tableBackground.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -100)
+        tableBackgroundBottomConstraint = tableBackground.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -tableBackgroundBottomInset)
         tableBackgroundBottomConstraint.isActive = true
         
         view.addSubview(tableView)
@@ -66,7 +67,7 @@ class TodosViewController: UIViewController, TDPopupDelegate {
         tableView.bottomAnchor.constraint(equalTo: tableBackground.bottomAnchor, constant: -tableViewInset).isActive = true
         
         view.addSubview(addTodoPopup)
-        addTodoPopup.heightAnchor.constraint(equalToConstant: TodosViewController.addTodoPopupHeight).isActive = true
+        addTodoPopup.heightAnchor.constraint(equalToConstant: addTodoPopupHeight).isActive = true
         addTodoPopup.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20).isActive = true
         addTodoPopup.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         addTodoPopup.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20).isActive = true
@@ -118,9 +119,9 @@ extension TodosViewController: TDHeaderViewDelegate, UITextFieldDelegate {
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        tableBackgroundBottomConstraint.constant -= (keyboardHeight)
+        tableBackgroundBottomConstraint.constant = -(tableBackgroundBottomInset + keyboardHeight)
         UIView.animate(withDuration: 0.25) {
-            self.view.layoutIfNeeded()
+            if self.addTodoPopup.isOpen { self.view.layoutIfNeeded() }
         }
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.85, initialSpringVelocity: 1, options: .curveEaseIn, animations: {
             self.addTodoPopup.transform = CGAffineTransform(translationX: 0, y: -self.keyboardHeight)
@@ -130,9 +131,9 @@ extension TodosViewController: TDHeaderViewDelegate, UITextFieldDelegate {
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        tableBackgroundBottomConstraint.constant += (keyboardHeight)
+        tableBackgroundBottomConstraint.constant = -tableBackgroundBottomInset
         UIView.animate(withDuration: 0.6) {
-            self.view.layoutIfNeeded()
+            if !self.addTodoPopup.isOpen { self.view.layoutIfNeeded() }
         }
         UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 0.85, initialSpringVelocity: 1, options: .curveEaseIn, animations: {
             self.addTodoPopup.transform = CGAffineTransform(translationX: 0, y: 0)
