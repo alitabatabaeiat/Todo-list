@@ -23,8 +23,8 @@ class TDPopup: TDGradientView {
     var popupHeight: CGFloat!
     var popupY: CGFloat!
     var minHeight: CGFloat!
-    var closeDelay: TimeInterval = 0
-    var isOpen = true
+    var keyboardHeight: CGFloat = 0
+    var isOpen = false
     var editingTodo: Todo? {
         didSet {
             if let todo = self.editingTodo {
@@ -44,7 +44,7 @@ class TDPopup: TDGradientView {
         self.popupY = popupY
         self.minHeight = popupHeight - popupY
         
-        self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.animate(delay:))))
+        self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.animate)))
         
         self.addSubview(addButton)
         addButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
@@ -85,39 +85,53 @@ class TDPopup: TDGradientView {
     }
     
     @objc func handleCancelButton(_ button: TDButton) {
-        setDefaultsAndClose()
+        setDefaults()
+        animate()
         button.animate(completion: nil)
     }
     
-    @objc func animate(delay: TimeInterval = 0) {
-        isOpen = !isOpen
-        self.textField.resignFirstResponder()
-        UIView.animate(withDuration: 0.5, delay: delay, usingSpringWithDamping: 0.85, initialSpringVelocity: 1, options: .curveEaseIn, animations: {
-            self.transform = CGAffineTransform(translationX: 0, y: self.popupY)
+    @objc func animate() {
+        if isOpen {
+            popupY = 0 // take to default position
+            textField.resignFirstResponder()
+        } else {
+            popupY = popupHeight - minHeight + keyboardHeight
+            textField.becomeFirstResponder()
+        }
+        
+        showOrHideButtons(duration: 0.2, delay: 0)
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.85, initialSpringVelocity: 1, options: .curveEaseIn, animations: {
+            self.transform = CGAffineTransform(translationX: 0, y: -self.popupY)
         }, completion: nil)
         
-        if isOpen { // push down
-            popupY = popupHeight - minHeight
-        } else { // pull up
-            popupY = 0
+        isOpen = !isOpen
+    }
+    
+    func changeAnimate() {
+        if isOpen {
+            isOpen = false
+            showOrHideButtons(duration: 0.2, delay: 0)
+            for i in 1...2 {
+                if i == 1 { popupY = keyboardHeight - 5 }
+                else if i == 2 { popupY = popupHeight - minHeight + keyboardHeight }
+                UIView.animate(withDuration: 0.4, delay: i == 1 ? 0 : 0.4, usingSpringWithDamping: 0.85, initialSpringVelocity: 1, options: .curveEaseIn, animations: {
+                    self.transform = CGAffineTransform(translationX: 0, y: -self.popupY)
+                }, completion: nil)
+            }
+            isOpen = true
         }
     }
     
-    func setDefaultsAndClose() {
+    func setDefaults() {
         addButton.setTitle(TDPopup.ADD, for: .normal)
         textField.text = ""
-        if isOpen { animate(delay: closeDelay) }
+        editingTodo = nil
     }
     
     func showOrHideButtons(duration: TimeInterval, delay: TimeInterval) {
         if isOpen {
-            addButton.alpha = 1
-            cancelButton.alpha = 1
-            addButton.isHidden = false
-            cancelButton.isHidden = false
-        } else {
             UIView.animate(withDuration: duration, delay: delay, options: .curveEaseIn, animations: {
-                if !self.isOpen {
+                if self.isOpen {
                     self.addButton.alpha = 0
                     self.cancelButton.alpha = 0
                 }
@@ -127,6 +141,11 @@ class TDPopup: TDGradientView {
                     self.cancelButton.isHidden = true
                 }
             }
+        } else {
+            addButton.alpha = 1
+            cancelButton.alpha = 1
+            addButton.isHidden = false
+            cancelButton.isHidden = false
         }
     }
 }

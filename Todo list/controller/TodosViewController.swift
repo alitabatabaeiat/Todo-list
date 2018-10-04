@@ -36,7 +36,7 @@ class TodosViewController: UIViewController, TDPopupDelegate {
     override func viewDidAppear(_ animated: Bool) {
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardDidShow(_:)), name: NSNotification.Name.UIKeyboardDidShow, object: nil)
         openKeyboard()
-        addTodoPopup.animate()
+//        addTodoPopup.animate() // close todo popup
     }
     
     override func viewDidLoad() {
@@ -69,7 +69,7 @@ class TodosViewController: UIViewController, TDPopupDelegate {
         view.addSubview(addTodoPopup)
         addTodoPopup.heightAnchor.constraint(equalToConstant: addTodoPopupHeight).isActive = true
         addTodoPopup.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20).isActive = true
-        addTodoPopup.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        addTodoPopup.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: addTodoPopupHeight - 15).isActive = true
         addTodoPopup.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20).isActive = true
         
         tapGestureRecognizer.delegate = self
@@ -84,6 +84,7 @@ class TodosViewController: UIViewController, TDPopupDelegate {
         updateTodosLeft()
     }
     
+    // Triggers keyboardDidShow to get keyboard height
     func openKeyboard() {
         let textField = UITextField()
         view.addSubview(textField)
@@ -95,11 +96,13 @@ class TodosViewController: UIViewController, TDPopupDelegate {
     @objc func keyboardDidShow(_ notification: Notification) {
         let keyboardSize = (notification.userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue.size
         self.keyboardHeight = keyboardSize.height
+        addTodoPopup.keyboardHeight = keyboardSize.height
     }
     
     @objc func tapRecognizer() {
         if addTodoPopup.isOpen {
-            addTodoPopup.setDefaultsAndClose()
+            addTodoPopup.setDefaults()
+            addTodoPopup.animate()
         }
     }
     
@@ -110,12 +113,12 @@ class TodosViewController: UIViewController, TDPopupDelegate {
 
 extension TodosViewController: TDHeaderViewDelegate, UITextFieldDelegate {
     func openAddTodoPopup() {
-        addTodoPopup.animate()
         if addTodoPopup.editingTodo != nil {
-            addTodoPopup.setDefaultsAndClose()
-            addTodoPopup.animate(delay: 0.5)
-            addTodoPopup.editingTodo = nil
+            addTodoPopup.changeAnimate()
+        } else {
+            addTodoPopup.animate()
         }
+        addTodoPopup.setDefaults()
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
@@ -123,22 +126,12 @@ extension TodosViewController: TDHeaderViewDelegate, UITextFieldDelegate {
         UIView.animate(withDuration: 0.25) {
             if self.addTodoPopup.isOpen { self.view.layoutIfNeeded() }
         }
-        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.85, initialSpringVelocity: 1, options: .curveEaseIn, animations: {
-            self.addTodoPopup.transform = CGAffineTransform(translationX: 0, y: -self.keyboardHeight)
-        }) { (_) in
-            self.addTodoPopup.closeDelay = 0.25
-        }
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         tableBackgroundBottomConstraint.constant = -tableBackgroundBottomInset
         UIView.animate(withDuration: 0.6) {
             if !self.addTodoPopup.isOpen { self.view.layoutIfNeeded() }
-        }
-        UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 0.85, initialSpringVelocity: 1, options: .curveEaseIn, animations: {
-            self.addTodoPopup.transform = CGAffineTransform(translationX: 0, y: 0)
-        }) { (_) in
-            self.addTodoPopup.closeDelay = 0
         }
     }
     
@@ -153,8 +146,8 @@ extension TodosViewController: TDHeaderViewDelegate, UITextFieldDelegate {
         if validTodo(title: text) {
             CoreDataManager.shared.createTodo(id: Int32(todos.count), title: text)
             updateTodos()
-            addTodoPopup.textField.text = ""
-            addTodoPopup.animate(delay: addTodoPopup.closeDelay)
+            addTodoPopup.setDefaults()
+            addTodoPopup.animate()
         }
     }
     
@@ -162,9 +155,8 @@ extension TodosViewController: TDHeaderViewDelegate, UITextFieldDelegate {
         if validTodo(title: text) {
             CoreDataManager.shared.updateTodo(withId: id, newTitle: text)
             updateTodos()
-            addTodoPopup.textField.text = ""
-            addTodoPopup.animate(delay: addTodoPopup.closeDelay)
-            addTodoPopup.editingTodo = nil
+            addTodoPopup.setDefaults()
+            addTodoPopup.animate()
         }
     }
     
@@ -251,15 +243,7 @@ extension TodosViewController: UITableViewDelegate, UITableViewDataSource, TDTab
         } else {
             return
         }
-        
-        if !addTodoPopup.isOpen {
-            openPopupToEditTodo(todo: todo)
-        } else if addTodoPopup.isOpen, let todo = todo {
-            if addTodoPopup.editingTodo != todo {
-                openPopupToEditTodo(todo: todo)
-                addTodoPopup.animate(delay: 0.5)
-            }
-        }
+        openPopupToEditTodo(todo: todo)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -268,7 +252,11 @@ extension TodosViewController: UITableViewDelegate, UITableViewDataSource, TDTab
     
     func openPopupToEditTodo(todo: Todo?) {
         addTodoPopup.addButton.setTitle(TDPopup.EDIT, for: .normal)
-        addTodoPopup.animate()
+        
+        if !addTodoPopup.isOpen { addTodoPopup.animate() }
+        else if addTodoPopup.isOpen, let todo = todo {
+            if addTodoPopup.editingTodo != todo { addTodoPopup.changeAnimate() }
+        }
         addTodoPopup.editingTodo = todo
     }
 }
